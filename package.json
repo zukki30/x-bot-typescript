@@ -15,7 +15,9 @@
   "license": "ISC",
   "dependencies": {
     "@hono/node-server": "^1.13.7",
-    "hono": "^4.6.16"
+    "dotenv": "^16.4.7",
+    "hono": "^4.6.16",
+    "twitter-api-v2": "^1.19.0"
   },
   "devDependencies": {
     "@google-cloud/functions-framework": "^3.4.5",

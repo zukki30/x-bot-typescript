@@ -1,10 +1,23 @@
 import { Hono } from 'hono'
 import { serve } from '@hono/node-server'
 import type { Request, Response } from '@google-cloud/functions-framework'
+import { TwitterService } from './services/twitter'
 
 export const app = new Hono()
+const twitterService = new TwitterService()
 
 app.get('/', (c) => c.text('Hello, Hono!'))
+
+// おはようツイート投稿エンドポイント
+app.post('/tweet/morning', async (c) => {
+  try {
+    await twitterService.tweetGoodMorning()
+    return c.json({ message: 'Good morning tweet posted successfully' })
+  } catch (error) {
+    console.error('Error:', error)
+    return c.json({ error: 'Failed to post tweet' }, 500)
+  }
+})
 
 // Google Cloud Functionsのエントリーポイント
 export const honoFunction = async (req: Request, res: Response) => {
