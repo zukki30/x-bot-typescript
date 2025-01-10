@@ -2,7 +2,7 @@ import { Hono } from 'hono'
 import { serve } from '@hono/node-server'
 import type { Request, Response } from '@google-cloud/functions-framework'
 
-const app = new Hono()
+export const app = new Hono()
 
 app.get('/', (c) => c.text('Hello, Hono!'))
 
