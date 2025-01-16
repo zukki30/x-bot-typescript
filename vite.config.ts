@@ -1,4 +1,4 @@
-import { defineConfig } from 'vite'
+import { defineConfig } from 'vite';
 
 export default defineConfig({
   build: {
@@ -7,11 +7,18 @@ export default defineConfig({
     lib: {
       entry: 'src/index.ts',
       formats: ['cjs'],
-      fileName: 'index'
+      fileName: 'index',
     },
     rollupOptions: {
-      external: ['@hono/node-server', 'hono', '@google-cloud/functions-framework', 'twitter-api-v2', 'dotenv']
+      external: [
+        '@hono/node-server',
+        'hono',
+        '@google-cloud/functions-framework',
+        'axios',
+        'dotenv',
+        'node:crypto',
+      ],
     },
-    sourcemap: true
-  }
-}) 
+    sourcemap: true,
+  },
+});
