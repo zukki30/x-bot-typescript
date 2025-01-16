@@ -1,10 +1,9 @@
 import { Hono } from 'hono';
-import { serve } from '@hono/node-server';
 import type { Request, Response } from '@google-cloud/functions-framework';
-import { TwitterService } from './services/twitter';
+import { createTwitterService } from './services/twitter';
 
 export const app = new Hono();
-const twitterService = new TwitterService();
+const twitterService = createTwitterService();
 
 app.get('/', (c) => c.text('Hello, Hono!'));
 
