@@ -4,7 +4,7 @@ import crypto from 'node:crypto';
 
 dotenv.config();
 
-interface OAuthParams {
+type OAuthParams = {
   oauth_consumer_key: string;
   oauth_nonce: string;
   oauth_signature_method: string;
@@ -12,15 +12,15 @@ interface OAuthParams {
   oauth_token: string;
   oauth_version: string;
   oauth_signature?: string;
-}
+};
 
-interface TwitterConfig {
+type TwitterConfig = {
   apiKey: string;
   apiKeySecret: string;
   accessToken: string;
   accessTokenSecret: string;
   baseUrl: string;
-}
+};
 
 const createTwitterConfig = (): TwitterConfig => ({
   apiKey: process.env.X_API_KEY || '',
