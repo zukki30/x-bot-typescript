@@ -75,4 +75,60 @@ describe('TwitterService', () => {
       await expect(twitterService.tweetGoodMorning()).rejects.toThrow('API Error');
     });
   });
+
+  describe('tweetLunch', () => {
+    it('should post a lunch tweet with current time', async () => {
+      // 時刻を固定
+      const mockDate = new Date(2024, 0, 1, 12, 0);
+      vi.setSystemTime(mockDate);
+
+      (axios.post as Mock).mockResolvedValueOnce({ data: { id: '123' } });
+
+      await twitterService.tweetLunch();
+
+      // 正しいメッセージでツイートされたことを確認
+      expect(axios.post).toHaveBeenCalledWith(
+        'https://api.twitter.com/2/tweets',
+        { text: '2024/01/01 - お昼ごはんいただきます！' },
+        expect.any(Object)
+      );
+
+      // システム時刻をリセット
+      vi.useRealTimers();
+    });
+
+    it('should handle API errors in lunch tweet', async () => {
+      (axios.post as Mock).mockRejectedValueOnce(new Error('API Error'));
+
+      await expect(twitterService.tweetLunch()).rejects.toThrow('API Error');
+    });
+  });
+
+  describe('tweetGoodNight', () => {
+    it('should post a good night tweet with current time', async () => {
+      // 時刻を固定
+      const mockDate = new Date(2024, 0, 1, 22, 0);
+      vi.setSystemTime(mockDate);
+
+      (axios.post as Mock).mockResolvedValueOnce({ data: { id: '123' } });
+
+      await twitterService.tweetGoodNight();
+
+      // 正しいメッセージでツイートされたことを確認
+      expect(axios.post).toHaveBeenCalledWith(
+        'https://api.twitter.com/2/tweets',
+        { text: '2024/01/01 - おやすみなさい！' },
+        expect.any(Object)
+      );
+
+      // システム時刻をリセット
+      vi.useRealTimers();
+    });
+
+    it('should handle API errors in good night tweet', async () => {
+      (axios.post as Mock).mockRejectedValueOnce(new Error('API Error'));
+
+      await expect(twitterService.tweetGoodNight()).rejects.toThrow('API Error');
+    });
+  });
 });

@@ -45,5 +45,13 @@ export const createTwitterService = () => {
       const now = new Date();
       return tweet(config, `${formatDateYYYYMMDD(now)} - おはようございます！`);
     },
+    tweetLunch: () => {
+      const now = new Date();
+      return tweet(config, `${formatDateYYYYMMDD(now)} - お昼ごはんいただきます！`);
+    },
+    tweetGoodNight: () => {
+      const now = new Date();
+      return tweet(config, `${formatDateYYYYMMDD(now)} - おやすみなさい！`);
+    },
   };
 };
