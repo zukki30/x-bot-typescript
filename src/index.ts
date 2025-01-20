@@ -5,16 +5,44 @@ import { createTwitterService } from './services/twitter';
 export const app = new Hono();
 const twitterService = createTwitterService();
 
-app.get('/', (c) => c.text('Hello, Hono!'));
+app.get('/', (c) => c.text('OK'));
 
 // おはようツイート投稿エンドポイント
 app.post('/tweet/morning', async (c) => {
   try {
     await twitterService.tweetGoodMorning();
-    return c.json({ message: 'Good morning tweet posted successfully' });
+    return c.json({ status: 'success', message: 'Morning tweet posted successfully' });
   } catch (error) {
-    console.error('Error:', error);
-    return c.json({ error: 'Failed to post tweet' }, 500);
+    return c.json(
+      { status: 'error', message: error instanceof Error ? error.message : 'Unknown error' },
+      500
+    );
+  }
+});
+
+// お昼ごはんツイート
+app.post('/tweet/lunch', async (c) => {
+  try {
+    await twitterService.tweetLunch();
+    return c.json({ status: 'success', message: 'Lunch tweet posted successfully' });
+  } catch (error) {
+    return c.json(
+      { status: 'error', message: error instanceof Error ? error.message : 'Unknown error' },
+      500
+    );
+  }
+});
+
+// おやすみツイート
+app.post('/tweet/night', async (c) => {
+  try {
+    await twitterService.tweetGoodNight();
+    return c.json({ status: 'success', message: 'Good night tweet posted successfully' });
+  } catch (error) {
+    return c.json(
+      { status: 'error', message: error instanceof Error ? error.message : 'Unknown error' },
+      500
+    );
   }
 });
 
@@ -37,3 +65,5 @@ export const honoFunction = async (req: Request, res: Response) => {
   const body = await honoRes.arrayBuffer();
   res.send(Buffer.from(body));
 };
+
+export default app;
