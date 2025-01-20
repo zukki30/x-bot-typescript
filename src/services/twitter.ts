@@ -1,7 +1,7 @@
 import axios from 'axios';
 import dotenv from 'dotenv';
 import type { TwitterConfig } from './types';
-import { formatDate } from '../utils/date';
+import { formatDateYYYYMMDD } from '../utils/date';
 import { generateAuthHeader } from './auth';
 
 dotenv.config();
@@ -43,7 +43,7 @@ export const createTwitterService = () => {
     tweet: (text: string) => tweet(config, text),
     tweetGoodMorning: () => {
       const now = new Date();
-      return tweet(config, `おはようございます！ (${formatDate(now)})`);
+      return tweet(config, `${formatDateYYYYMMDD(now)} - おはようございます！`);
     },
   };
 };

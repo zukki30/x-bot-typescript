@@ -2,8 +2,6 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import type { Mock } from 'vitest';
 import axios from 'axios';
 import { createTwitterService } from './twitter';
-import { generateAuthHeader } from './auth';
-import type { TwitterConfig } from './types';
 
 // Axiosのモック
 vi.mock('axios');
@@ -63,7 +61,7 @@ describe('TwitterService', () => {
       // 正しいメッセージでツイートされたことを確認
       expect(axios.post).toHaveBeenCalledWith(
         'https://api.twitter.com/2/tweets',
-        { text: 'おはようございます！ (09:30)' },
+        { text: '2024/01/01 - おはようございます！' },
         expect.any(Object)
       );
 
