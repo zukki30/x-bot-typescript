@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { formatDate } from './date';
+import { formatDate, formatDateYYYYMMDD } from './date';
 
 describe('formatDate', () => {
   it('should format date with single digit hours and minutes', () => {
@@ -20,5 +20,12 @@ describe('formatDate', () => {
   it('should format time before midnight correctly', () => {
     const date = new Date(2024, 0, 1, 23, 59); // 23:59
     expect(formatDate(date)).toBe('23:59');
+  });
+});
+
+describe('formatDateYYYYMMDD', () => {
+  it('should format date with YYYY/MM/DD format', () => {
+    const date = new Date(2024, 0, 1); // 2024/01/01
+    expect(formatDateYYYYMMDD(date)).toBe('2024/01/01');
   });
 });
