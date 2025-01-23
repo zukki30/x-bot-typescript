@@ -1,12 +1,5 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { Hono } from 'hono';
-
-// TwitterServiceのモックを設定
-vi.mock('./services/twitter', () => ({
-  createTwitterService: vi.fn(() => ({
-    tweetGoodMorning: vi.fn(),
-  })),
-}));
 
 // オリジナルのapp.requestをモック
 const mockRequest = vi.fn();
