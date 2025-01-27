@@ -14,9 +14,18 @@ env:
 jobs:
   check-quota:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
     outputs:
       should_deploy: ${{ steps.check.outputs.should_deploy }}
     steps:
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.SERVICE_ACCOUNT }}
+
       - id: check
         run: |
           # 現在の月の使用量を確認
