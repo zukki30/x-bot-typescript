@@ -45,8 +45,4 @@ app.post('/tweet/night', async (c) => {
   }
 });
 
-// Functions Framework用のエクスポート
-export const honoFunction = app.fetch;
-
-// テスト用にappをエクスポート
 export default app;
