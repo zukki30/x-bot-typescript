@@ -10,6 +10,7 @@ steps:
       - --env=PORT=8080
       - --env=BP_NODE_RUN_SCRIPTS=build
       - --env=BP_NODE_VERSION=20.x
+      - --env=GOOGLE_FUNCTION_TARGET=honoFunction
       - --verbose
       - --trust-builder
 
@@ -28,6 +29,7 @@ steps:
       - --max-instances=1
       - --port=8080
       - --allow-unauthenticated
+      - --set-env-vars=GOOGLE_FUNCTION_TARGET=honoFunction
 
 substitutions:
   _REGION: asia-northeast1
