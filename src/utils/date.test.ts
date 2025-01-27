@@ -26,6 +26,6 @@ describe('formatDate', () => {
 describe('formatDateYYYYMMDD', () => {
   it('should format date with YYYY/MM/DD format', () => {
     const date = new Date(2024, 0, 1); // 2024/01/01
-    expect(formatDateYYYYMMDD(date)).toBe('2024/01/01');
+    expect(formatDateYYYYMMDD(date)).toBe('2024/01/01 - 00:00');
   });
 });

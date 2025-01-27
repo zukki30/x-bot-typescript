@@ -61,7 +61,7 @@ describe('TwitterService', () => {
       // 正しいメッセージでツイートされたことを確認
       expect(axios.post).toHaveBeenCalledWith(
         'https://api.twitter.com/2/tweets',
-        { text: '2024/01/01 - おはようございます！' },
+        { text: '2024/01/01 - 09:30 - おはようございます！' },
         expect.any(Object)
       );
 
@@ -89,7 +89,7 @@ describe('TwitterService', () => {
       // 正しいメッセージでツイートされたことを確認
       expect(axios.post).toHaveBeenCalledWith(
         'https://api.twitter.com/2/tweets',
-        { text: '2024/01/01 - お昼ごはんいただきます！' },
+        { text: '2024/01/01 - 12:00 - お昼ごはんいただきます！' },
         expect.any(Object)
       );
 
@@ -117,7 +117,7 @@ describe('TwitterService', () => {
       // 正しいメッセージでツイートされたことを確認
       expect(axios.post).toHaveBeenCalledWith(
         'https://api.twitter.com/2/tweets',
-        { text: '2024/01/01 - おやすみなさい！' },
+        { text: '2024/01/01 - 22:00 - おやすみなさい！' },
         expect.any(Object)
       );
 
