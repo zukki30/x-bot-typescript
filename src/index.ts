@@ -1,14 +1,8 @@
 import { Hono } from 'hono';
 import { createTwitterService } from './services/twitter';
-import { serve } from '@hono/node-server';
 
 const app = new Hono();
 const twitterService = createTwitterService();
-
-// Cloud Functions用のエクスポート
-export const honoFunction = app.fetch;
-// テスト用にappをエクスポート
-export default app;
 
 app.get('/', (c) => c.text('OK'));
 
@@ -51,12 +45,8 @@ app.post('/tweet/night', async (c) => {
   }
 });
 
-// Cloud Run用のサーバー起動
-if (process.env.K_SERVICE) {
-  // Cloud Run環境の場合
-  const port = Number.parseInt(process.env.PORT || '8080');
-  serve({
-    fetch: app.fetch,
-    port,
-  });
-}
+// Functions Framework用のエクスポート
+export const honoFunction = app.fetch;
+
+// テスト用にappをエクスポート
+export default app;
