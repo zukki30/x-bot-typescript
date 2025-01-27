@@ -30,10 +30,13 @@ jobs:
 
       - id: check
         run: |
-          # 現在の月の使用量を確認
-          CURRENT_INVOCATIONS=$(gcloud functions get-iam-policy "$FUNCTION_NAME" --region="$REGION" --format='json' | jq '.invocations')
+          # Cloud Functions APIを使用して使用量を確認
+          USAGE=$(gcloud functions describe "$FUNCTION_NAME" \
+            --region="$REGION" \
+            --format="json" | jq '.usageStats.invocations // 0')
+          
           # 無料枠は月200万回まで
-          if [ "$CURRENT_INVOCATIONS" -lt 2000000 ]; then
+          if [ "$USAGE" -lt 2000000 ]; then
             echo "should_deploy=true" >> "$GITHUB_OUTPUT"
           else
             echo "should_deploy=false" >> "$GITHUB_OUTPUT"
