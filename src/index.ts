@@ -1,9 +1,7 @@
 import { Hono } from 'hono';
-import { serve } from '@hono/node-server';
 import { createTwitterService } from './services/twitter';
-import type { IncomingMessage, ServerResponse } from 'node:http';
 
-export const app = new Hono();
+const app = new Hono();
 const twitterService = createTwitterService();
 
 app.get('/', (c) => c.text('OK'));
@@ -47,11 +45,8 @@ app.post('/tweet/night', async (c) => {
   }
 });
 
-// Google Cloud Functionsのエントリーポイント
-export const honoFunction = async (req: IncomingMessage, res: ServerResponse) => {
-  const server = serve(app);
-  await server.listen(process.env.PORT || 8080);
-  console.log(`Server is running on port ${process.env.PORT || 8080}`);
-};
+// Cloud Run / Functions Framework用のエクスポート
+export const honoFunction = app.fetch;
 
+// テスト用にappをエクスポート
 export default app;
