@@ -14,28 +14,45 @@ steps:
     entrypoint: npm
     args: ['run', 'build']
 
-  # Cloud Functionsへのデプロイ
+  # Dockerイメージのビルド
+  - name: 'gcr.io/cloud-builders/docker'
+    args: [
+      'build',
+      '-t',
+      '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPOSITORY}/${_SERVICE_NAME}',
+      '.'
+    ]
+
+  # イメージのプッシュ
+  - name: 'gcr.io/cloud-builders/docker'
+    args: [
+      'push',
+      '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPOSITORY}/${_SERVICE_NAME}'
+    ]
+
+  # Cloud Runへのデプロイ
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
     args:
-      - functions
+      - run
       - deploy
-      - x-bot
-      - --gen2
-      - --runtime=nodejs20
-      - --region=asia-northeast1
-      - --source=.
-      - --entry-point=honoFunction
-      - --trigger-http
-      - --memory=128MB
+      - ${_SERVICE_NAME}
+      - --image=${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPOSITORY}/${_SERVICE_NAME}
+      - --region=${_REGION}
+      - --platform=managed
+      - --memory=128Mi
+      - --cpu=1
       - --min-instances=0
       - --max-instances=1
-      - --timeout=30s
+      - --port=8080
+      - --allow-unauthenticated
+
+substitutions:
+  _REGION: asia-northeast1
+  _REPOSITORY: x-bot-images
+  _SERVICE_NAME: x-bot
 
 options:
   logging: CLOUD_LOGGING_ONLY
 
-substitutions:
-  _REGION: asia-northeast1
-  _FUNCTION_NAME: x-bot
-
-timeout: 1800s 
+timeout: 1800s
