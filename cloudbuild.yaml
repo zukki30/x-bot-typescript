@@ -1,34 +1,14 @@
 steps:
-  # Node.jsのインストールと依存関係の解決
-  - name: 'node:20'
-    entrypoint: npm
-    args: ['install']
-
-  # テストの実行
-  - name: 'node:20'
-    entrypoint: npm
-    args: ['test']
-
-  # ビルド
-  - name: 'node:20'
-    entrypoint: npm
-    args: ['run', 'build']
-
-  # Dockerイメージのビルド
-  - name: 'gcr.io/cloud-builders/docker'
-    args: [
-      'build',
-      '-t',
-      '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPOSITORY}/${_SERVICE_NAME}',
-      '.'
-    ]
-
-  # イメージのプッシュ
-  - name: 'gcr.io/cloud-builders/docker'
-    args: [
-      'push',
-      '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPOSITORY}/${_SERVICE_NAME}'
-    ]
+  # Cloud Native Buildpacksを使用してコンテナイメージをビルド
+  - name: 'gcr.io/k8s-skaffold/pack'
+    args:
+      - build
+      - '${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPOSITORY}/${_SERVICE_NAME}'
+      - --builder=gcr.io/buildpacks/builder:latest
+      - --path=.
+      - --env=NODE_ENV=production
+      - --env=PORT=8080
+      - --trust-builder
 
   # Cloud Runへのデプロイ
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
@@ -41,7 +21,6 @@ steps:
       - --region=${_REGION}
       - --platform=managed
       - --memory=128Mi
-      - --cpu=1
       - --min-instances=0
       - --max-instances=1
       - --port=8080
