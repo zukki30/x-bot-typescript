@@ -1,7 +1,7 @@
 import { Hono } from 'hono';
-import type { Request, Response } from '@google-cloud/functions-framework';
+import { serve } from '@hono/node-server';
 import { createTwitterService } from './services/twitter';
-import { honoRequest } from './functions';
+import type { IncomingMessage, ServerResponse } from 'node:http';
 
 export const app = new Hono();
 const twitterService = createTwitterService();
@@ -48,15 +48,10 @@ app.post('/tweet/night', async (c) => {
 });
 
 // Google Cloud Functionsのエントリーポイント
-export const honoFunction = async (req: Request, res: Response) => {
-  const honoReq = await honoRequest(req, res);
-
-  const honoRes = await app.fetch(honoReq);
-  res.status(honoRes.status);
-  honoRes.headers.forEach((value: string, key: string) => res.set(key, value));
-
-  const body = await honoRes.arrayBuffer();
-  res.send(Buffer.from(body));
+export const honoFunction = async (req: IncomingMessage, res: ServerResponse) => {
+  const server = serve(app);
+  await server.listen(process.env.PORT || 8080);
+  console.log(`Server is running on port ${process.env.PORT || 8080}`);
 };
 
 export default app;
