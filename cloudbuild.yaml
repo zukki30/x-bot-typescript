@@ -1,5 +1,5 @@
 steps:
-  # Cloud Native Buildpacksを使用してコンテナイメージをビルド
+  # Cloud Native Buildpacksを使用してコンテナイメージをビルドです。
   - name: 'gcr.io/k8s-skaffold/pack'
     args:
       - build

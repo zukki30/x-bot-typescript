@@ -1,4 +1,5 @@
 import { Hono } from 'hono';
+import { serve } from '@hono/node-server';
 import { createTwitterService } from './services/twitter';
 
 const app = new Hono();
@@ -43,6 +44,14 @@ app.post('/tweet/night', async (c) => {
       500
     );
   }
+});
+
+// サーバーの起動
+const port = process.env.PORT || 3000;
+
+serve({
+  fetch: app.fetch,
+  port: Number(port),
 });
 
 export default app;
