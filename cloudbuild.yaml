@@ -8,6 +8,8 @@ steps:
       - --path=.
       - --env=NODE_ENV=production
       - --env=PORT=8080
+      - --env=BP_NODE_RUN_SCRIPTS=build
+      - --verbose
       - --trust-builder
 
   # Cloud Runへのデプロイ
