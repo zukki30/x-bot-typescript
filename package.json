@@ -1,6 +1,9 @@
 {
   "name": "x-bot-typescript",
   "version": "1.0.0",
+  "engines": {
+    "node": "20.x"
+  },
   "description": "SNS X への Bot を TypeScript で作成する",
   "main": "dist/index.js",
   "scripts": {
