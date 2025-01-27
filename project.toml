@@ -5,7 +5,3 @@ value = "production"
 [[build.env]]
 name = "PORT"
 value = "8080"
-
-[[build.env]]
-name = "GOOGLE_FUNCTION_TARGET"
-value = "honoFunction" 
