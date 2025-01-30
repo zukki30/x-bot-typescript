@@ -4,8 +4,10 @@
  * @returns HH:MM 形式の文字列
  */
 export const formatDate = (date: Date): string => {
-  const hours = date.getHours().toString().padStart(2, '0');
-  const minutes = date.getMinutes().toString().padStart(2, '0');
+  // 日本時間に変換
+  const jpDate = new Date(date.getTime() + 9 * 60 * 60 * 1000);
+  const hours = jpDate.getHours().toString().padStart(2, '0');
+  const minutes = jpDate.getMinutes().toString().padStart(2, '0');
   return `${hours}:${minutes}`;
 };
 
